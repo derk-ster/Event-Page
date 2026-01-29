@@ -1,146 +1,113 @@
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector(".nav");
-const body = document.body;
-
-body.classList.add("is-loading");
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    body.classList.add("loaded");
-    body.classList.remove("is-loading");
-  }, 1600);
-});
 
 if (navToggle) {
   navToggle.addEventListener("click", () => {
-    nav.classList.toggle("active");
+    nav.classList.toggle("open");
   });
 }
 
-class Carousel {
-  constructor(root, interval = 5000) {
-    this.root = root;
-    this.track = root.querySelector(".carousel-track");
-    this.slides = Array.from(root.querySelectorAll(".carousel-slide"));
-    this.prevBtn = root.querySelector(".carousel-btn.prev");
-    this.nextBtn = root.querySelector(".carousel-btn.next");
-    this.dotsContainer = root.querySelector(".carousel-dots");
-    this.index = 0;
-    this.interval = interval;
-    this.timer = null;
-    this.setupDots();
-    this.update();
-    this.attachEvents();
-    this.start();
-  }
-
-  setupDots() {
-    this.dotsContainer.innerHTML = "";
-    this.slides.forEach((_, i) => {
-      const dot = document.createElement("button");
-      dot.addEventListener("click", () => {
-        this.index = i;
-        this.update();
-        this.restart();
-      });
-      this.dotsContainer.appendChild(dot);
-    });
-  }
-
-  attachEvents() {
-    this.prevBtn?.addEventListener("click", () => {
-      this.index = (this.index - 1 + this.slides.length) % this.slides.length;
-      this.update();
-      this.restart();
-    });
-
-    this.nextBtn?.addEventListener("click", () => {
-      this.index = (this.index + 1) % this.slides.length;
-      this.update();
-      this.restart();
-    });
-
-    this.root.addEventListener("mouseenter", () => this.stop());
-    this.root.addEventListener("mouseleave", () => this.start());
-  }
-
-  update() {
-    this.track.style.transform = `translateX(-${this.index * 100}%)`;
-    this.slides.forEach((slide, i) => {
-      slide.classList.toggle("active", i === this.index);
-    });
-    Array.from(this.dotsContainer.children).forEach((dot, i) => {
-      dot.classList.toggle("active", i === this.index);
-    });
-  }
-
-  start() {
-    this.stop();
-    this.timer = setInterval(() => {
-      this.index = (this.index + 1) % this.slides.length;
-      this.update();
-    }, this.interval);
-  }
-
-  stop() {
-    if (this.timer) {
-      clearInterval(this.timer);
-      this.timer = null;
-    }
-  }
-
-  restart() {
-    this.stop();
-    this.start();
-  }
-}
-
-document.querySelectorAll("[data-carousel]").forEach((carousel) => {
-  const isTestimonial = carousel.dataset.carousel === "testimonials";
-  const interval = isTestimonial ? 6500 : 5500;
-  new Carousel(carousel, interval);
+document.querySelectorAll(".nav a").forEach((link) => {
+  link.addEventListener("click", () => {
+    nav.classList.remove("open");
+  });
 });
 
-const revealElements = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
+const tabs = document.querySelectorAll(".tab-btn");
+const panels = document.querySelectorAll(".tab-panel");
 
-  revealElements.forEach((el) => observer.observe(el));
-} else {
-  revealElements.forEach((el) => el.classList.add("visible"));
-}
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    tabs.forEach((btn) => btn.classList.remove("active"));
+    panels.forEach((panel) => panel.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+  });
+});
 
-const signupForm = document.querySelector(".signup-form");
-if (signupForm) {
-  signupForm.addEventListener("submit", (event) => {
+const eventDate = new Date("2026-03-21T09:00:00-07:00");
+const countdownEls = {
+  days: document.getElementById("days"),
+  hours: document.getElementById("hours"),
+  minutes: document.getElementById("minutes"),
+  seconds: document.getElementById("seconds"),
+};
+
+const pad = (value) => String(value).padStart(2, "0");
+
+const updateCountdown = () => {
+  const now = new Date();
+  const distance = eventDate - now;
+
+  if (distance <= 0) {
+    Object.values(countdownEls).forEach((el) => {
+      if (el) el.textContent = "00";
+    });
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((distance / (1000 * 60)) % 60);
+  const seconds = Math.floor((distance / 1000) % 60);
+
+  if (countdownEls.days) countdownEls.days.textContent = pad(days);
+  if (countdownEls.hours) countdownEls.hours.textContent = pad(hours);
+  if (countdownEls.minutes) countdownEls.minutes.textContent = pad(minutes);
+  if (countdownEls.seconds) countdownEls.seconds.textContent = pad(seconds);
+};
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+const form = document.querySelector(".registration-form");
+if (form) {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const input = signupForm.querySelector("input");
-    if (input) {
-      input.value = "";
-      input.placeholder = "Thanks! We'll be in touch.";
-    }
+    const button = form.querySelector(".submit-btn");
+    button.classList.add("submitted");
+    button.querySelector("span").textContent = "Registration Sent!";
+    setTimeout(() => {
+      button.classList.remove("submitted");
+      button.querySelector("span").textContent = "Submit Registration";
+      form.reset();
+    }, 2500);
   });
 }
 
-const backToTopBtn = document.querySelector(".back-to-top");
-if (backToTopBtn) {
-  const toggleBackToTop = () => {
-    backToTopBtn.classList.toggle("visible", window.scrollY > 400);
-  };
+const revealTargets = [
+  ...document.querySelectorAll(
+    "section .section-heading, .about-card, .speaker-card, .session, .ticket-list div, .registration-form, .carousel-item"
+  ),
+];
 
-  window.addEventListener("scroll", toggleBackToTop);
-  toggleBackToTop();
+revealTargets.forEach((el, index) => {
+  el.classList.add("reveal");
+  el.style.setProperty("--delay", `${Math.min(index * 0.06, 0.6)}s`);
+});
 
-  backToTopBtn.addEventListener("click", () => {
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.2 }
+);
+
+revealTargets.forEach((el) => observer.observe(el));
+
+window.addEventListener("load", () => {
+  document.body.classList.add("page-ready");
+});
+
+const backToTop = document.querySelector(".back-to-top");
+if (backToTop) {
+  backToTop.addEventListener("click", (event) => {
+    event.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
