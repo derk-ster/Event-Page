@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="EH logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6fd2ff" />
+      <stop offset="100%" stop-color="#eefaff" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#0b3b5a" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)" />
+  <g filter="url(#shadow)">
+    <text
+      x="50%"
+      y="58%"
+      text-anchor="middle"
+      font-family="Manrope, 'Arial Black', sans-serif"
+      font-size="220"
+      font-weight="800"
+      fill="#f7dc3a"
+      letter-spacing="8"
+    >
+      EH
+    </text>
+  </g>
+</svg>
