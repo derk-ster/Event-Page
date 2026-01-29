@@ -3,87 +3,102 @@ const nav = document.querySelector(".nav");
 
 if (navToggle) {
   navToggle.addEventListener("click", () => {
-    nav.classList.toggle("open");
+    nav.classList.toggle("active");
   });
 }
 
-document.querySelectorAll(".nav a").forEach((link) => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("open");
-  });
-});
-
-const tabs = document.querySelectorAll(".tab-btn");
-const panels = document.querySelectorAll(".tab-panel");
-
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    tabs.forEach((btn) => btn.classList.remove("active"));
-    panels.forEach((panel) => panel.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById(tab.dataset.tab).classList.add("active");
-  });
-});
-
-const carouselTrack = document.querySelector(".carousel-track");
-document.querySelectorAll(".carousel-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!carouselTrack) return;
-    const cardWidth = carouselTrack.querySelector(".carousel-item").offsetWidth + 18;
-    const direction = btn.dataset.dir === "next" ? 1 : -1;
-    carouselTrack.scrollBy({
-      left: cardWidth * direction,
-      behavior: "smooth",
-    });
-  });
-});
-
-const eventDate = new Date("2026-03-21T09:00:00-07:00");
-const countdownEls = {
-  days: document.getElementById("days"),
-  hours: document.getElementById("hours"),
-  minutes: document.getElementById("minutes"),
-  seconds: document.getElementById("seconds"),
-};
-
-const pad = (value) => String(value).padStart(2, "0");
-
-const updateCountdown = () => {
-  const now = new Date();
-  const distance = eventDate - now;
-
-  if (distance <= 0) {
-    Object.values(countdownEls).forEach((el) => {
-      if (el) el.textContent = "00";
-    });
-    return;
+class Carousel {
+  constructor(root, interval = 5000) {
+    this.root = root;
+    this.track = root.querySelector(".carousel-track");
+    this.slides = Array.from(root.querySelectorAll(".carousel-slide"));
+    this.prevBtn = root.querySelector(".carousel-btn.prev");
+    this.nextBtn = root.querySelector(".carousel-btn.next");
+    this.dotsContainer = root.querySelector(".carousel-dots");
+    this.index = 0;
+    this.interval = interval;
+    this.timer = null;
+    this.setupDots();
+    this.update();
+    this.attachEvents();
+    this.start();
   }
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((distance / (1000 * 60)) % 60);
-  const seconds = Math.floor((distance / 1000) % 60);
+  setupDots() {
+    this.dotsContainer.innerHTML = "";
+    this.slides.forEach((_, i) => {
+      const dot = document.createElement("button");
+      dot.addEventListener("click", () => {
+        this.index = i;
+        this.update();
+        this.restart();
+      });
+      this.dotsContainer.appendChild(dot);
+    });
+  }
 
-  if (countdownEls.days) countdownEls.days.textContent = pad(days);
-  if (countdownEls.hours) countdownEls.hours.textContent = pad(hours);
-  if (countdownEls.minutes) countdownEls.minutes.textContent = pad(minutes);
-  if (countdownEls.seconds) countdownEls.seconds.textContent = pad(seconds);
-};
+  attachEvents() {
+    this.prevBtn?.addEventListener("click", () => {
+      this.index = (this.index - 1 + this.slides.length) % this.slides.length;
+      this.update();
+      this.restart();
+    });
 
-updateCountdown();
-setInterval(updateCountdown, 1000);
+    this.nextBtn?.addEventListener("click", () => {
+      this.index = (this.index + 1) % this.slides.length;
+      this.update();
+      this.restart();
+    });
 
-const form = document.querySelector(".registration-form");
-if (form) {
-  form.addEventListener("submit", (event) => {
+    this.root.addEventListener("mouseenter", () => this.stop());
+    this.root.addEventListener("mouseleave", () => this.start());
+  }
+
+  update() {
+    this.track.style.transform = `translateX(-${this.index * 100}%)`;
+    this.slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === this.index);
+    });
+    Array.from(this.dotsContainer.children).forEach((dot, i) => {
+      dot.classList.toggle("active", i === this.index);
+    });
+  }
+
+  start() {
+    this.stop();
+    this.timer = setInterval(() => {
+      this.index = (this.index + 1) % this.slides.length;
+      this.update();
+    }, this.interval);
+  }
+
+  stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  }
+
+  restart() {
+    this.stop();
+    this.start();
+  }
+}
+
+document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+  const isTestimonial = carousel.dataset.carousel === "testimonials";
+  const interval = isTestimonial ? 6500 : 5500;
+  new Carousel(carousel, interval);
+});
+
+const signupForm = document.querySelector(".signup-form");
+if (signupForm) {
+  signupForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    const button = form.querySelector(".submit-btn");
-    button.classList.add("submitted");
-    button.querySelector("span").textContent = "Registration Sent!";
-    setTimeout(() => {
-      button.classList.remove("submitted");
-      button.querySelector("span").textContent = "Submit Registration";
-      form.reset();
-    }, 2500);
+    const input = signupForm.querySelector("input");
+    if (input) {
+      input.value = "";
+      input.placeholder = "Thanks! We'll be in touch.";
+    }
   });
 }
