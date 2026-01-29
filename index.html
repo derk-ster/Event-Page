@@ -13,7 +13,12 @@
     />
   </head>
   <body>
-    <header class="site-header" id="top">
+    <div class="intro-loader" aria-hidden="true">
+      <div class="loader-orb"></div>
+      <p>Loading PulseFlow Experience...</p>
+    </div>
+    <div id="top" class="top-anchor" aria-hidden="true"></div>
+    <header class="site-header">
       <div class="container header-inner">
         <div class="logo">PulseFlow</div>
         <nav class="nav">
@@ -32,8 +37,9 @@
     <main>
       <section class="hero" aria-labelledby="hero-title">
         <div class="container hero-grid">
-          <div class="hero-content">
+          <div class="hero-content reveal">
             <p class="eyebrow">AI-powered SaaS for fast-growing teams</p>
+            <p class="portfolio-note">Portfolio demo website · Concept UI</p>
             <h1 id="hero-title">Revolutionize Your Industry</h1>
             <p class="hero-subtitle">
               PulseFlow helps your team automate workflows, surface real-time
@@ -59,7 +65,7 @@
               </div>
             </div>
           </div>
-          <div class="hero-visual">
+          <div class="hero-visual reveal">
             <div class="glow-orb"></div>
             <div class="glass-panel">
               <div class="panel-header">
@@ -95,27 +101,27 @@
 
       <section class="features" id="features">
         <div class="container">
-          <div class="section-header">
+          <div class="section-header reveal">
             <h2>Powerful Features Built to Scale</h2>
             <p>Everything you need to automate, analyze, and accelerate growth.</p>
           </div>
           <div class="feature-grid">
-            <article class="feature-card">
+            <article class="feature-card reveal">
               <div class="icon">⚡</div>
               <h3>Instant Automations</h3>
               <p>Launch workflows in minutes with drag-and-drop intelligence.</p>
             </article>
-            <article class="feature-card">
+            <article class="feature-card reveal">
               <div class="icon">🧠</div>
               <h3>AI Insights</h3>
               <p>Predict churn, forecast revenue, and surface hidden signals.</p>
             </article>
-            <article class="feature-card">
+            <article class="feature-card reveal">
               <div class="icon">🔒</div>
               <h3>Enterprise Security</h3>
               <p>End-to-end encryption, SSO, and compliance-ready controls.</p>
             </article>
-            <article class="feature-card">
+            <article class="feature-card reveal">
               <div class="icon">🌐</div>
               <h3>Team Collaboration</h3>
               <p>Keep every department aligned with shared dashboards.</p>
@@ -126,11 +132,11 @@
 
       <section class="demo" id="demo">
         <div class="container">
-          <div class="section-header">
+          <div class="section-header reveal">
             <h2>Interactive Product Showcase</h2>
             <p>Explore the platform with a guided tour of key workflows.</p>
           </div>
-          <div class="carousel" data-carousel="demo">
+          <div class="carousel reveal" data-carousel="demo">
             <div class="carousel-track">
               <div class="carousel-slide active">
                 <div class="demo-card">
@@ -169,11 +175,11 @@
 
       <section class="testimonials" id="testimonials">
         <div class="container">
-          <div class="section-header">
+          <div class="section-header reveal">
             <h2>Teams Love PulseFlow</h2>
             <p>See how high-growth teams transform operations with PulseFlow.</p>
           </div>
-          <div class="carousel" data-carousel="testimonials">
+          <div class="carousel reveal" data-carousel="testimonials">
             <div class="carousel-track">
               <div class="carousel-slide active">
                 <div class="testimonial-card">
@@ -214,6 +220,97 @@
                   </div>
                 </div>
               </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★★</div>
+                  <p>
+                    “We automated 70% of manual tasks in the first month and our
+                    team finally has time to focus on strategy.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Amelia Grant</span>
+                    <small>COO, LumenWorks</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★★</div>
+                  <p>
+                    “The onboarding templates made our rollout painless across
+                    four regions. It felt like magic.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Chris Nolan</span>
+                    <small>Director of Ops, AtlasCloud</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★☆</div>
+                  <p>
+                    “PulseFlow keeps our revenue team aligned with real-time
+                    dashboards and automated alerts.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Jade Morris</span>
+                    <small>Revenue Lead, Brightline</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★★</div>
+                  <p>
+                    “Our customer health scores are now predictive. We reduce
+                    churn before it starts.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Kenji Ito</span>
+                    <small>Customer Success, Horizonix</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★★</div>
+                  <p>
+                    “The automation builder is so intuitive our teams shipped
+                    their first flows the same day.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Sophia Richards</span>
+                    <small>Product Ops, Northwind</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★☆</div>
+                  <p>
+                    “We finally have a single source of truth for leadership
+                    reporting. The executive team loves it.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Liam Carter</span>
+                    <small>Strategy, Elevate Labs</small>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-slide">
+                <div class="testimonial-card">
+                  <div class="stars">★★★★★</div>
+                  <p>
+                    “PulseFlow replaced three legacy tools and saved us thousands
+                    per quarter.”
+                  </p>
+                  <div class="reviewer">
+                    <span>Maya Lopez</span>
+                    <small>Finance Lead, Orionly</small>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="carousel-controls">
               <button class="carousel-btn prev" aria-label="Previous testimonial">
@@ -230,12 +327,12 @@
 
       <section class="pricing" id="pricing">
         <div class="container">
-          <div class="section-header">
+          <div class="section-header reveal">
             <h2>Flexible Plans for Every Team</h2>
             <p>Start free, then scale with confidence as your team grows.</p>
           </div>
           <div class="pricing-grid">
-            <article class="pricing-card">
+            <article class="pricing-card reveal">
               <h3>Starter</h3>
               <p class="price">$0<span>/month</span></p>
               <ul>
@@ -245,7 +342,7 @@
               </ul>
               <a class="btn ghost" href="#signup">Try Free</a>
             </article>
-            <article class="pricing-card recommended">
+            <article class="pricing-card recommended reveal">
               <div class="badge">Recommended</div>
               <h3>Growth</h3>
               <p class="price">$49<span>/month</span></p>
@@ -256,7 +353,7 @@
               </ul>
               <a class="btn primary" href="#signup">Get Started</a>
             </article>
-            <article class="pricing-card">
+            <article class="pricing-card reveal">
               <h3>Enterprise</h3>
               <p class="price">$129<span>/month</span></p>
               <ul>
@@ -271,7 +368,7 @@
       </section>
 
       <section class="signup" id="signup">
-        <div class="container signup-inner">
+        <div class="container signup-inner reveal">
           <div>
             <h2>Ready to supercharge your team?</h2>
             <p>Join 2,000+ teams accelerating growth with PulseFlow.</p>
@@ -286,7 +383,7 @@
 
     <footer class="site-footer">
       <div class="container footer-inner">
-        <p>© 2026 PulseFlow. All rights reserved.</p>
+        <p>© 2026 PulseFlow. Portfolio demo site.</p>
         <div class="footer-links">
           <a href="#top">Back to top</a>
           <a href="#pricing">Pricing</a>
@@ -294,6 +391,7 @@
         </div>
       </div>
     </footer>
+    <button class="back-to-top" type="button" aria-label="Back to top">↑</button>
 
     <script src="script.js"></script>
   </body>

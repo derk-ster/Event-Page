@@ -1,5 +1,14 @@
 const navToggle = document.querySelector(".nav-toggle");
 const nav = document.querySelector(".nav");
+const body = document.body;
+
+body.classList.add("is-loading");
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    body.classList.add("loaded");
+    body.classList.remove("is-loading");
+  }, 1600);
+});
 
 if (navToggle) {
   navToggle.addEventListener("click", () => {
@@ -91,6 +100,25 @@ document.querySelectorAll("[data-carousel]").forEach((carousel) => {
   new Carousel(carousel, interval);
 });
 
+const revealElements = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  revealElements.forEach((el) => observer.observe(el));
+} else {
+  revealElements.forEach((el) => el.classList.add("visible"));
+}
+
 const signupForm = document.querySelector(".signup-form");
 if (signupForm) {
   signupForm.addEventListener("submit", (event) => {
@@ -100,5 +128,19 @@ if (signupForm) {
       input.value = "";
       input.placeholder = "Thanks! We'll be in touch.";
     }
+  });
+}
+
+const backToTopBtn = document.querySelector(".back-to-top");
+if (backToTopBtn) {
+  const toggleBackToTop = () => {
+    backToTopBtn.classList.toggle("visible", window.scrollY > 400);
+  };
+
+  window.addEventListener("scroll", toggleBackToTop);
+  toggleBackToTop();
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
